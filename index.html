@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Metro-browserify by DeepElement</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Metro-browserify</h1>
+        <p>Support NodeJs modules within the WinJS runtime in an instant.</p>
+
+        <p class="view"><a href="https://github.com/DeepElement/metro-browserify">View the Project on GitHub <small>DeepElement/metro-browserify</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/DeepElement/metro-browserify/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/DeepElement/metro-browserify/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/DeepElement/metro-browserify">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="-metro-browserify-" class="anchor" href="#-metro-browserify-"><span class="octicon octicon-link"></span></a>
+<img src="http://www.deepelement.com/img/logos/de/de_logo.ico" height="30"> Metro-Browserify </h1>
+
+<p>Support NodeJs modules within the WinJS runtime in an instant. </p>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<ol>
+<li>Add <a href="https://www.nuget.org/packages/MetroBrowserify/">MetroBrowserify NuGet Package</a> to WinJS project via <a href="https://www.nuget.org/">NuGet</a>
+</li>
+<li>Define your package.json in the project root:</li>
+</ol><div class="highlight highlight-Javascript"><pre><span class="p">{</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"Winstore-Browserify"</span><span class="p">,</span>
+    <span class="s2">"version"</span><span class="o">:</span> <span class="s2">"0.0.1"</span><span class="p">,</span>
+    <span class="s2">"description"</span><span class="o">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"scripts"</span><span class="o">:</span> <span class="p">{},</span>
+    <span class="s2">"dependencies"</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">"uniq"</span><span class="o">:</span> <span class="s2">"*"</span>
+    <span class="p">},</span>
+    <span class="s2">"author"</span><span class="o">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"license"</span><span class="o">:</span> <span class="s2">""</span>
+<span class="p">}</span>
+</pre></div>
+
+<ol>
+<li>Create a node module with the <code>*.node.js</code> extension (ie. entry.node.js):</li>
+</ol><div class="highlight highlight-Javascript"><pre><span class="kd">var</span> <span class="nx">unique</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'uniq'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">unique</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+</pre></div>
+
+<ol>
+<li>Add reference to node module js file directly in your default.html:</li>
+</ol><div class="highlight highlight-Javascript"><pre><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"/js/entry.node.js"</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</pre></div>
+
+<p><strong>Extras</strong>:</p>
+
+<ol>
+<li>Clean-up unrequired files
+
+<ul>
+<li>Remove the 'npmPlaceholder.txt' (see <a href="https://github.com/giggio/npm-nuget">NPM NuGet</a>)</li>
+<li>Exclude the ".bin" directory from project (see <a href="https://www.nuget.org/packages/Node.js/">NODE NuGet</a>)</li>
+</ul>
+</li>
+<li>Git Users
+
+<ul>
+<li>Add "*.cache" to .gitignore</li>
+</ul>
+</li>
+</ol><h1>
+<a name="samples--explanation" class="anchor" href="#samples--explanation"><span class="octicon octicon-link"></span></a>Samples &amp; Explanation</h1>
+
+<p>See the <a href="https://github.com/DeepElement/metro-browserify/tree/master/samples/standard">WinStore Sample</a></p>
+
+<p>The above sample shows that:</p>
+
+<ol>
+<li>At build time, NPM, Node and Browserify will be installed relative to the project directory</li>
+<li>Browserify compiles <code>*.node.js</code> files into <code>*.node.js.cache</code> variants</li>
+<li>Cache versions of the node files are replaced in the Appx output</li>
+</ol><p>In result, the node module effectively runs like a champ in your Metro app.</p>
+
+<h1>
+<a name="disclaimer" class="anchor" href="#disclaimer"><span class="octicon octicon-link"></span></a>Disclaimer</h1>
+
+<p>Not all Node Modules will run in Metro.
+This is caused by the fact that some modules have C++ or Native implementations that are not available in RT.
+Please test compiled functionality before production usage.</p>
+
+<h1>
+<a name="special-thanks" class="anchor" href="#special-thanks"><span class="octicon octicon-link"></span></a>Special Thanks</h1>
+
+<ul>
+<li><a href="http://browserify.org/" title="Browserify Project">The Browserify Core Team</a></li>
+<li><a href="http://wanderinggoat.com/">The Wondering Goat, Eugene Oregon</a></li>
+</ul><h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>The MIT License (MIT)</p>
+
+<p>Copyright (c) 2014 Deep Element Software Services</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/DeepElement">DeepElement</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
