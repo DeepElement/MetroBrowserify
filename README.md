@@ -1,5 +1,3 @@
-<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
-
 <img src="http://www.deepelement.com/img/logos/de/de_logo.ico" height="30"> Metro-Browserify 
 ================ 
 Support NodeJs modules within the WinJS runtime in an instant. 
