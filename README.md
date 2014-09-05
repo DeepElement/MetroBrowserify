@@ -1,4 +1,4 @@
-<img src="http://www.deepelement.com/img/logos/de/de_logo.ico" height="48"> Metro-Browserify 
+<img src="http://www.deepelement.com/img/logos/de/de_logo.ico" height="30"> Metro-Browserify 
 ================ 
 Support NodeJs modules within the WinJS runtime in an instant. 
 
