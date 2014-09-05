@@ -1,0 +1,12 @@
+{
+  "name": "Winstore-Browserify",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {},
+  "dependencies": {
+    "uniq": "*",
+    "browserify": "~5.11.1"
+  },
+  "author": "",
+  "license": ""
+}
