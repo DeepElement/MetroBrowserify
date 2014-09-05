@@ -19,7 +19,7 @@ Support NodeJs modules within the WinJS runtime in an instant.
 	"license": ""
 }
 ```
-3. Create a node module with the `*.node.js` extension:
+3. Create a node module with the `*.node.js` extension (ie. entry.node.js):
 ```Javascript
 var unique = require('uniq');
 var data = [1, 2, 2, 3, 4, 5, 5, 5, 6];
