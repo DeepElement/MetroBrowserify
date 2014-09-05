@@ -5,9 +5,7 @@ Support NodeJs modules within the WinJS runtime in an instant.
 #Installation
 
 1. Add [MetroBrowserify NuGet Package](https://www.nuget.org/packages/MetroBrowserify/) to WinJS project via [NuGet](https://www.nuget.org/)
-
-1. Define your package.json in the project root:
- 
+2. Define your package.json in the project root:
 ```Javascript
 {
 	"name": "Winstore-Browserify",
@@ -21,7 +19,6 @@ Support NodeJs modules within the WinJS runtime in an instant.
 	"license": ""
 }
 ```
-
 3. Create a node module with the `*.node.js` extension:
 ```Javascript
 var unique = require('uniq');
