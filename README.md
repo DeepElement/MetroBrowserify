@@ -47,7 +47,7 @@ The above sample shows that:
 2. Browserify compiles `*.node.js` files into `*.node.js.cache` variants
 3. Cache versions of the node files are replaced in the Appx output
 
-In result, the node module effectively runs like a champ in a running Metro app.
+In result, the node module effectively runs like a champ in your Metro app.
 
 
 #Disclaimer
