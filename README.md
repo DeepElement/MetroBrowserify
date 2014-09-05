@@ -1,4 +1,4 @@
-![](http://www.deepelement.com/img/logos/de/de_logo.ico=48x48) Metro-Browserify 
+![](http://www.deepelement.com/img/logos/de/de_logo.ico) Metro-Browserify 
 ================ 
 Support NodeJs modules within the WinJS runtime in an instant. 
 
