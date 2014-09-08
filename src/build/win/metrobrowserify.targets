@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <IsStandAlone Condition=" '$(IsStandAlone)' == '' ">false</IsStandAlone>
+    <StandAloneNamespace Condition=" '$(StandAloneNamespace)' == '' ">MetroBrowserify</StandAloneNamespace>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+    <MetroBrowserifyBuildDependsOn>
+        CleanCacheRecords;
+        CompileCacheRecords;
+        PackageExtraFiles;
+        UpdateBOMHeaders
+    </MetroBrowserifyBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanCacheRecords" >
+    <ItemGroup>
+      <CacheFiles Include="$(ProjectDir)\**\*.cache" />
+    </ItemGroup>
+    <Delete Files="@(CacheFiles)" />
+  </Target>
+
+  <Target Name="SetupNpmDependencies" BeforeTargets="RestoreNpmPkgs">
+    <Exec Command="npm install --save browserify" />
+  </Target>
+
+  <Target Name="CompileCacheRecords" AfterTargets="RestoreNpmPkgs" DependsOnTargets="CleanCacheRecords">
+    <ItemGroup>
+      <JsFiles Include="$(ProjectDir)\**\*.node.js" Exclude="$(ProjectDir)\bin\**\*.*" />
+    </ItemGroup>
+
+    <Exec Command="browserify %(JsFiles.Identity) -o %(JsFiles.RootDir)%(JsFiles.Directory)%(JsFiles.Filename).js.cache" Condition=" '$(IsStandAlone)' == 'false' " />
+     
+    <Exec Command="browserify %(JsFiles.Identity) -s $(StandAloneNamespace) -o %(JsFiles.RootDir)%(JsFiles.Directory)%(JsFiles.Filename).js.cache" Condition=" '$(IsStandAlone)' == 'true' " />
+  </Target>
+
+  <Target Name="PackageExtraFiles" DependsOnTargets="CompileCacheRecords">
+    <Message Text="PreCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" />
+    <ItemGroup>
+      <_AddToPackageFiles Include="$(ProjectDir)\**\*.cache" Exclude="$(ProjectDir)\bin\**\*.*" ></_AddToPackageFiles>
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(Extension)'=='.cache'"></PackagingOutputs>
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(Filename)').EndsWith('.node'))"></PackagingOutputs>
+      <PackagingOutputs Include="@(_AddToPackageFiles -> '%(FullPath)')">
+        <OutputGroup>Content</OutputGroup>
+        <ProjectName>$(ProjectName)</ProjectName>
+        <TargetPath>%(RecursiveDir)%(Filename)</TargetPath>
+      </PackagingOutputs>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="UpdateBOMHeaders" DependsOnTargets="PackageExtraFiles">
+    <Message Text="Updating BOM headers" />
+    <WriteLinesToFile Condition="Exists('%(CacheFiles.FullPath)')" File="%(CacheFiles.FullPath)" Lines="$([System.IO.File]::ReadAllText(%(CacheFiles.FullPath)))" Overwrite="true" Encoding="utf-8" />
+  </Target>
+
+  <Target Name="MetroBrowserifyBuild" DependsOnTargets="$(MetroBrowserifyBuildDependsOn)" AfterTargets="GetPackagingOutputs">
+    <Message Text="PostCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" />
+  </Target>
+</Project>
