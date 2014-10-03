@@ -1,6 +1,7 @@
-<img src="http://www.deepelement.com/img/logos/de/de_logo.ico" height="30"> Metro-Browserify 
+<img src="http://www.metronode.org/img/logo/metronode-96x96.png"> Metro-Browserify 
 ================ 
 Support NodeJs modules within the WinJS runtime in an instant. 
+This project was built to support [Metronode](http://www.metronode.org)
 
 #Installation
 
