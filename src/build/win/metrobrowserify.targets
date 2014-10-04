@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <Target Name="MetroBrowserifySetupNpmDependencies" DependsOnTargets="RestoreNpmPkgs;GetPackagingOutputs">
-    <Exec Command="npm update browserify" />
+    <Exec Command="npm update browserify@5.13.1" />
   </Target>
 
   <Target Name="MetroBrowserifyCleanCacheRecords" DependsOnTargets="MetroBrowserifySetupNpmDependencies">
