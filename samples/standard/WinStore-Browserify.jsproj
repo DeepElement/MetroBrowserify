@@ -52,7 +52,7 @@
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>WinStore-Browserify_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <NuGetPackageImportStamp>01bf0324</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>1a8bc1b9</NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="package.appxmanifest">
@@ -94,9 +94,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\Npm.js.1.3.15.10\build\npm.js.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Npm.js.1.3.15.10\build\npm.js.targets'))" />
-    <Error Condition="!Exists('packages\MetroBrowserify.0.1.0\build\win\metrobrowserify.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MetroBrowserify.0.1.0\build\win\metrobrowserify.targets'))" />
+    <Error Condition="!Exists('packages\MetroBrowserify.0.1.2\build\win\metrobrowserify.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MetroBrowserify.0.1.2\build\win\metrobrowserify.targets'))" />
   </Target>
-  <Import Project="packages\MetroBrowserify.0.1.0\build\win\metrobrowserify.targets" Condition="Exists('packages\MetroBrowserify.0.1.0\build\win\metrobrowserify.targets')" />
+  <Import Project="packages\MetroBrowserify.0.1.2\build\win\metrobrowserify.targets" Condition="Exists('packages\MetroBrowserify.0.1.2\build\win\metrobrowserify.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below then uncomment
        that target and the DisableFastUpToDateCheck PropertyGroup. 
        Other similar extension points exist, see Microsoft.Common.targets.

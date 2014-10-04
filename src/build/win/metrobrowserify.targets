@@ -5,25 +5,26 @@
     <MetroBrowserifyStandAloneNamespace Condition=" '$(MetroBrowserifyStandAloneNamespace)' == '' ">MetroBrowserify</MetroBrowserifyStandAloneNamespace>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <MetroBrowserifyBuildDependsOn>
+        MetroBrowserifySetupNpmDependencies;
         MetroBrowserifyCleanCacheRecords;
         MetroBrowserifyCompileCacheRecords;
         MetroBrowserifyPackageExtraFiles;
-        MetroBrowserifyUpdateBOMHeaders
+        MetroBrowserifyUpdateBOMHeaders;
     </MetroBrowserifyBuildDependsOn>
   </PropertyGroup>
 
-  <Target Name="MetroBrowserifyCleanCacheRecords" >
+  <Target Name="MetroBrowserifySetupNpmDependencies" DependsOnTargets="RestoreNpmPkgs;GetPackagingOutputs">
+    <Exec Command="npm update browserify" />
+  </Target>
+
+  <Target Name="MetroBrowserifyCleanCacheRecords" DependsOnTargets="MetroBrowserifySetupNpmDependencies">
     <ItemGroup>
       <CacheFiles Include="$(ProjectDir)\**\*.cache" />
     </ItemGroup>
     <Delete Files="@(CacheFiles)" />
   </Target>
 
-  <Target Name="MetroBrowserifySetupNpmDependencies" BeforeTargets="RestoreNpmPkgs">
-    <Exec Command="npm update browserify" />
-  </Target>
-
-  <Target Name="MetroBrowserifyCompileCacheRecords" AfterTargets="RestoreNpmPkgs" DependsOnTargets="MetroBrowserifyCleanCacheRecords">
+  <Target Name="MetroBrowserifyCompileCacheRecords" DependsOnTargets="MetroBrowserifyCleanCacheRecords">
     <ItemGroup>
       <JsFiles Include="$(ProjectDir)\**\*.node.js" Exclude="$(ProjectDir)\bin\**\*.*" />
     </ItemGroup>
@@ -34,7 +35,7 @@
   </Target>
 
   <Target Name="MetroBrowserifyPackageExtraFiles" DependsOnTargets="MetroBrowserifyCompileCacheRecords">
-    <Message Text="PreCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" />
+    <!-- Message Text="PreCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" / -->
     <ItemGroup>
       <_AddToPackageFiles Include="$(ProjectDir)\**\*.cache" Exclude="$(ProjectDir)\bin\**\*.*" ></_AddToPackageFiles>
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(Extension)'=='.cache'"></PackagingOutputs>
@@ -48,11 +49,10 @@
   </Target>
 
   <Target Name="MetroBrowserifyUpdateBOMHeaders" DependsOnTargets="MetroBrowserifyPackageExtraFiles">
-    <Message Text="Updating BOM headers" />
     <WriteLinesToFile Condition="Exists('%(CacheFiles.FullPath)')" File="%(CacheFiles.FullPath)" Lines="$([System.IO.File]::ReadAllText(%(CacheFiles.FullPath)))" Overwrite="true" Encoding="utf-8" />
   </Target>
 
-  <Target Name="MetroBrowserifyBuild" DependsOnTargets="$(MetroBrowserifyBuildDependsOn)" AfterTargets="GetPackagingOutputs">
-    <Message Text="PostCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" />
+  <Target Name="MetroBrowserifyBuild" AfterTargets="RestoreNpmPkgs;GetPackagingOutputs" DependsOnTargets="$(MetroBrowserifyBuildDependsOn)">
+    <!-- Message Text="PostCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" / -->
   </Target>
 </Project>
