@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <Target Name="MetroBrowserifySetupNpmDependencies" DependsOnTargets="RestoreNpmPkgs;GetPackagingOutputs">
-    <Exec Command="npm update browserify@5.13.1" />
+    <Exec Command="npm update -g browserify@5.13.1" />
   </Target>
 
   <Target Name="MetroBrowserifyCleanCacheRecords" DependsOnTargets="MetroBrowserifySetupNpmDependencies">
@@ -29,21 +29,19 @@
       <JsFiles Include="$(ProjectDir)\**\*.node.js" Exclude="$(ProjectDir)\bin\**\*.*" />
     </ItemGroup>
 
-    <Exec Command="browserify %(JsFiles.Identity) -o %(JsFiles.RootDir)%(JsFiles.Directory)%(JsFiles.Filename).js.cache" Condition=" '$(MetroBrowserifyIsStandAlone)' == 'false' " />
+    <Exec Command="browserify %(JsFiles.Identity) -o %(JsFiles.RootDir)%(JsFiles.Directory)%(JsFiles.Filename).js.metrobrowserify.cache" Condition=" '$(MetroBrowserifyIsStandAlone)' == 'false' " />
      
-    <Exec Command="browserify %(JsFiles.Identity) -s $(MetroBrowserifyStandAloneNamespace) -o %(JsFiles.RootDir)%(JsFiles.Directory)%(JsFiles.Filename).js.cache" Condition=" '$(MetroBrowserifyIsStandAlone)' == 'true' " />
+    <Exec Command="browserify %(JsFiles.Identity) -s $(MetroBrowserifyStandAloneNamespace) -o %(JsFiles.RootDir)%(JsFiles.Directory)%(JsFiles.Filename).js.metrobrowserify.cache" Condition=" '$(MetroBrowserifyIsStandAlone)' == 'true' " />
   </Target>
 
   <Target Name="MetroBrowserifyPackageExtraFiles" DependsOnTargets="MetroBrowserifyCompileCacheRecords">
-    <!-- Message Text="PreCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" / -->
     <ItemGroup>
-      <_AddToPackageFiles Include="$(ProjectDir)\**\*.cache" Exclude="$(ProjectDir)\bin\**\*.*" ></_AddToPackageFiles>
-      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(Extension)'=='.cache'"></PackagingOutputs>
-      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(Filename)').EndsWith('.node'))"></PackagingOutputs>
+   <_AddToPackageFiles Include="$(ProjectDir)\**\*.metrobrowserify.cache" Exclude="$(ProjectDir)\bin\**\*.*;$(ProjectDir)\bld\**\*.*" ></_AddToPackageFiles>
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(Extension)'=='.js' AND Exists('%(RootDir)%(Directory)%(Filename).js.metrobrowserify.cache')"></PackagingOutputs>
       <PackagingOutputs Include="@(_AddToPackageFiles -> '%(FullPath)')">
         <OutputGroup>Content</OutputGroup>
         <ProjectName>$(ProjectName)</ProjectName>
-        <TargetPath>%(RecursiveDir)%(Filename)</TargetPath>
+        <TargetPath>%(RecursiveDir)$([System.String]::Copy('%(Filename)').Replace('.metrobrowserify',''))</TargetPath>
       </PackagingOutputs>
     </ItemGroup>
   </Target>
@@ -53,6 +51,5 @@
   </Target>
 
   <Target Name="MetroBrowserifyBuild" AfterTargets="RestoreNpmPkgs;GetPackagingOutputs" DependsOnTargets="$(MetroBrowserifyBuildDependsOn)">
-    <!-- Message Text="PostCompilation-Files: %(PackagingOutputs.Identity)  TargetPath:%(PackagingOutputs.TargetPath)"  Importance="high" / -->
   </Target>
 </Project>
